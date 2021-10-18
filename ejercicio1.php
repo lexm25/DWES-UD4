@@ -8,9 +8,9 @@
 </head>
 <body>
     <?php 
-    // $file = fopen("ej1.txt","a+");
-    // fwrite($file,"Alexander Skywalker supremo");
-    // fclose($file);
+    $file = fopen("ej1.txt","a+");
+    fwrite($file,"Alexander Skywalker,205,126,Black,Gray,Yellow,325,?,Planeta Vegeta,Gorgonita");
+    fclose($file);
     
     $file = fopen("ej1.txt","r");
 
