@@ -10,10 +10,10 @@
     <?php 
     $informacion = simplexml_load_file("ej3.xml");
 
-    $nuevoLibro = $informacion->addChild('usuario');
-    $nuevoLibro->addAttribute('sexo', 'Hombre');
-    $nuevoLibro->addChild('nombre', 'Bernard');
-    $nuevoLibro->addChild('apellido', 'Madoff');
+    // $nuevoLibro = $usuarios->addChild('usuario');
+    // $nuevoLibro->addAttribute('sexo', 'Hombre');
+    // $nuevoLibro->addChild('nombre', 'Bernard');
+    // $nuevoLibro->addChild('apellido', 'Madoff');
 
     echo"<table border= 1px>";
     echo"<tr>";
@@ -21,9 +21,9 @@
      echo "</tr>";
     foreach ($informacion as $child) {
     echo"<tr>";    
-        printf("%s","<td>$child->title</td>");
-        printf("%s","<td>$child->genre</td>");
-        printf("%s","<td>$child->price</td>");
+        printf("%s","<td>",$informacion->child[1]->author,"</td>");
+        printf("%s","<td>",$informacion->child[1]->genre,"</td>");
+        printf("%s","<td>",$informacion->child[1]->price,"</td>");
     echo "</tr>";
     }
     echo "</table>";
