@@ -9,12 +9,7 @@
 <body>
     <?php 
     $informacion = simplexml_load_file("ej3.xml");
-
-    // $nuevoLibro = $usuarios->addChild('usuario');
-    // $nuevoLibro->addAttribute('sexo', 'Hombre');
-    // $nuevoLibro->addChild('nombre', 'Bernard');
-    // $nuevoLibro->addChild('apellido', 'Madoff');
-
+    
     echo"<table border= 1px>";
     echo"<tr>";
     echo("<th>Título</th><th>Género</th><th>Precio</th>");
