@@ -14,17 +14,16 @@
             echo "<p>Error $error conectando a la base de datos: ",mysqli_connect_error(),"<p>";
             exit();
         }
-        $result = mysqli_query($mysqli,"SELECT * FROM `vuelos`");
-        var_dump($result);
-        echo "<br>";
+        //$result = mysqli_query($mysqli, "INSERT INTO `vuelos` (Origen, Destino, Fecha, Companya, ModeloAvion) VALUES('Madrid','Valencia','2021-10-21 09:16:52','Iberia','A320')");
+        $result = mysqli_query($mysqli,"UPDATE `vuelos` SET `Origen`='Dos Hermanas' WHERE `id`='6'");
+        
         if($result == false){
             echo "La consulta no ha funcionado correctamente";
         }
         else{
-            while ($fila=mysqli_fetch_assoc($result)){
-                print_r($fila);
-                echo "<br>";
-            }
+            echo "Se han insertado ", mysqli_affected_rows($mysqli)," filas";
+            echo "<br>";
+            echo "el id del último elemento añadido es: ", mysqli_insert_id($mysqli);
         }
         mysqli_close($mysqli);
     ?>
