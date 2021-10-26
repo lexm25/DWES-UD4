@@ -1,8 +1,8 @@
 <?php
     
     function creaConexion(){
-        @$mysqli = mysqli_connect('localhost','developer','developer','agenciaviajes');
-        $error = mysqli_connect_errno($mysqli);
+        @$mysqli = new mysqli('localhost','developer','developer','agenciaviajes');
+        $error = $mysqli -> connect_errno;
         if($error!=null){
             echo "<p>Error $error conectando a la base de datos: ",mysqli_connect_error(),"<p>";
             exit();
@@ -13,19 +13,20 @@
     }
     
     function creaVuelo($origen,$destino,$fecha,$companya,$modeloAvion){
-        $mysqli = creaConexion();
-        $sql = "INSERT INTO `vuelos` (Origen, Destino, Fecha, Companya, ModeloAvion) VALUES(?,?,?,?,?)";
-        mysqli_stmt_init($mysqli);
         $retorno=false;
-        if ($stmt = mysqli_prepare($mysqli,$sql)){
-            mysqli_stmt_bind_param($stmt, "sssss",$origen, $destino, $fecha, $companya, $modeloAvion);
-            
-            $retorno = mysqli_stmt_execute($stmt);
+        $mysqli = creaConexion();
+        $sql = $mysqli -> query("INSERT INTO `vuelos` (Origen, Destino, Fecha, Companya, ModeloAvion) VALUES(?,?,?,?,?)");
+        $mysqli->stmt_init($mysqli);
+        
+        if ($stmt = $mysqli->prepare($sql)){
+            $stmt->bind_param("sssss",$origen, $destino, $fecha, $companya, $modeloAvion);
+                
+            $stmt->execute($stmt);
            
-            mysqli_stmt_close($stmt);
+            $stmt->close($stmt);
             echo "<br>vuelo creado correctamente";
         }
-        $mysqli -> close();
+        mysqli_close($mysqli);
         return $retorno;
     }
     /*Permite cambiar el destino recibiendo ID y compañía*/
@@ -75,7 +76,7 @@
         mysqli_close($mysqli);
         return $retorno;
     }
-    /*extraer vuelo a partir del ID*/
+
     function extraeVuelos(){
         $mysqli = creaConexion();
         $sql = "SELECT * FROM vuelos";

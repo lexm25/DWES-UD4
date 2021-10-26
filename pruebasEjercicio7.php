@@ -10,11 +10,11 @@
     <?php
         include "ejercicio6.php";
         //creaConexion();
-        //creaVuelo("Egipto","Escocia","2021-11-26 16:12:53","Ryanair","Boeing 747");
+        creaVuelo("Sevilla","Betis","2021-11-26 16:12:53","Ryanair","Boeing 747");
         //modificaDestino(14,"Ryanair","Mikono");
         //modificaCompanya(14,"Plus Ultra Airlines");
         //eliminaVuelo(14);
-        extraeVuelos(5);
+        //extraeVuelos(5);
     ?>
 </body>
 </html>
