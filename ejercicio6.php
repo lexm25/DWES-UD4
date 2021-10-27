@@ -32,6 +32,7 @@
     function modificaDestino($id, $companya, $destino){
         $mysqli = creaConexion();
         $sql = "UPDATE vuelos SET Destino = ? WHERE id= ? AND Companya = ?";
+        mysqli_stmt_init($mysqli);
         $retorno=false;
         if ($stmt = mysqli_prepare($mysqli,$sql)){
             mysqli_stmt_bind_param($stmt, "sis",$destino, $id, $companya);
@@ -41,13 +42,14 @@
             mysqli_stmt_close($stmt);
             echo "<br>destino modificado correctamente";
         }
-        return $retorno;
         mysqli_close($mysqli);
+        return $retorno;
     }
     /*Modificar compañía con id*/
     function modificaCompanya($id,$companya){
         $mysqli = creaConexion();
         $sql = "UPDATE vuelos SET Companya = ? WHERE id= ?";
+        mysqli_stmt_init($mysqli);
         $retorno=false;
         if ($stmt = mysqli_prepare($mysqli,$sql)){
             mysqli_stmt_bind_param($stmt, "si",$companya,$id);
@@ -63,6 +65,7 @@
     function eliminaVuelo($id){
         $mysqli = creaConexion();
         $sql = "DELETE FROM vuelos WHERE id=?";
+        mysqli_stmt_init($mysqli);
         $retorno=false;
         if ($stmt = mysqli_prepare($mysqli,$sql)){
             mysqli_stmt_bind_param($stmt, "i", $id);
@@ -79,6 +82,7 @@
     function extraeVuelos(){
         $mysqli = creaConexion();
         $sql = "SELECT * FROM vuelos";
+        mysqli_stmt_init($mysqli);
         $retorno = false;
         if ($stmt = mysqli_prepare($mysqli,$sql)){
             $retorno =mysqli_stmt_execute($stmt);
@@ -93,5 +97,4 @@
         mysqli_close($mysqli);
         return $retorno;
     }
-    
 ?>

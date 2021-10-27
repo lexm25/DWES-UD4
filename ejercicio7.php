@@ -14,74 +14,78 @@
     
     function creaVuelo($origen,$destino,$fecha,$companya,$modeloAvion){
         $retorno=false;
+
         $mysqli = creaConexion();
         $sql = $mysqli -> query("INSERT INTO `vuelos` (Origen, Destino, Fecha, Companya, ModeloAvion) VALUES(?,?,?,?,?)");
         $mysqli->stmt_init($mysqli);
-        
         if ($stmt = $mysqli->prepare($sql)){
             $stmt->bind_param("sssss",$origen, $destino, $fecha, $companya, $modeloAvion);
                 
-            $stmt->execute($stmt);
+            $retorno = $stmt->execute($stmt);
            
             $stmt->close($stmt);
-            echo "<br>vuelo creado correctamente";
         }
         mysqli_close($mysqli);
         return $retorno;
     }
     /*Permite cambiar el destino recibiendo ID y compañía*/
     function modificaDestino($id, $companya, $destino){
-        $mysqli = creaConexion();
-        $sql = "UPDATE vuelos SET Destino = ? WHERE id= ? AND Companya = ?";
         $retorno=false;
-        if ($stmt = mysqli_prepare($mysqli,$sql)){
-            mysqli_stmt_bind_param($stmt, "sis",$destino, $id, $companya);
+        
+        $mysqli = creaConexion();
+        $sql = $mysqli -> query("UPDATE vuelos SET Destino = ? WHERE id= ? AND Companya = ?");
+        $mysqli->stmt_init($mysqli);
+        if ($stmt = $mysqli->prepare($sql)){
+            $stmt->bind_param("sis",$destino,$id, $companya);
             
-            $retorno = mysqli_stmt_execute($stmt);
+            $retorno = $stmt->execute($stmt);
                 
-            mysqli_stmt_close($stmt);
-            echo "<br>destino modificado correctamente";
+            $stmt->close($stmt);
         }
-        return $retorno;
         mysqli_close($mysqli);
+        return $retorno;
     }
     /*Modificar compañía con id*/
     function modificaCompanya($id,$companya){
-        $mysqli = creaConexion();
-        $sql = "UPDATE vuelos SET Companya = ? WHERE id= ?";
         $retorno=false;
-        if ($stmt = mysqli_prepare($mysqli,$sql)){
-            mysqli_stmt_bind_param($stmt, "si",$companya,$id);
 
-            $retorno = mysqli_stmt_execute($stmt);
+        $mysqli = creaConexion();
+        $sql = $mysqli -> query("UPDATE vuelos SET Companya = ? WHERE id= ?");
+        $mysqli->stmt_init($mysqli);
+        if ($stmt = $mysqli->prepare($sql)){
+            $stmt->bind_param("si",$companya,$id);
+
+            $retorno = $stmt->execute($stmt);
                             
-            mysqli_stmt_close($stmt);
-            echo "<br>compañía modificada correctamente";
+            $stmt->close($stmt);
         }
         mysqli_close($mysqli);
         return $retorno;
     } /*Eliminar vuelo a partir del id*/
     function eliminaVuelo($id){
-        $mysqli = creaConexion();
-        $sql = "DELETE FROM vuelos WHERE id=?";
         $retorno=false;
-        if ($stmt = mysqli_prepare($mysqli,$sql)){
-            mysqli_stmt_bind_param($stmt, "i", $id);
 
-            $retorno = mysqli_stmt_execute($stmt);
+        $mysqli = creaConexion();
+        $sql = $mysqli -> query("DELETE FROM vuelos WHERE id=?");
+        $mysqli->stmt_init($mysqli);
+        if ($stmt = $mysqli->prepare($sql)){
+            $stmt->bind_param("si",$companya,$id);
+
+            $retorno = $stmt->execute($stmt);
                
-            mysqli_stmt_close($stmt);
-            echo "<br>vuelo eliminado correctamente";
+            $stmt->close($stmt);
         }
         mysqli_close($mysqli);
         return $retorno;
     }
-
+    /*corregir*/
     function extraeVuelos(){
+        $retorno=false;
+
         $mysqli = creaConexion();
-        $sql = "SELECT * FROM vuelos";
-        $retorno = false;
-        if ($stmt = mysqli_prepare($mysqli,$sql)){
+        $sql = $mysqli -> query("SELECT * FROM vuelos");
+        $mysqli->stmt_init($mysqli);
+        if ($stmt = $mysqli->prepare($sql)){
             $retorno =mysqli_stmt_execute($stmt);
             mysqli_stmt_bind_result($stmt, $id, $origen, $destino, $fecha, $companya, $modeloAvion);
                 while (mysqli_stmt_fetch($stmt)) {
@@ -89,7 +93,7 @@
                     echo "<br>";        
                 }
             mysqli_stmt_close($stmt);
-            
+   
         }
         mysqli_close($mysqli);
         return $retorno;
