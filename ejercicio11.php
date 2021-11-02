@@ -8,11 +8,12 @@
 </head>
 <body>
     <?php
-        $servidor = "localhost";
-        $baseDatos = "agenciaviajes";
-        $usuario = "developer";
-        $pass = "developer";
-        function creaConexion($servidor,$baseDatos,$usuario,$pass){
+        
+        function creaConexion(){
+            $servidor = "localhost";
+            $baseDatos = "agenciaviajes";
+            $usuario = "developer";
+            $pass = "developer";
             try {
             $conexion = new PDO("mysql:host=$servidor;dbname=$baseDatos",$usuario,$pass);
             echo "Conectado correctamente";
@@ -34,33 +35,34 @@
             $consulta->bindParam(3,$apellido2);
             $consulta->bindParam(4,$direccion);
             $consulta->bindParam(5,$telefono);
+            $consulta->execute();
             return $conexion->lastInsertId();
             $conexion = null;
             } catch (PDOException $e) {
-                return false;
                 $conexion = null;
+                $e->getMessage();
             }
         }
 
         function extraeTurista(){
             try {
                 $conexion = creaConexion();
-                $consulta = $conexion->prepare("SELECT * FROM tursita WHERE id= ?");
+                $consulta = $conexion->prepare("SELECT * FROM turista WHERE id= ?");
                 $consulta->bindParam("id",$id);
                 $consulta->execute();
                 return $consulta->fetch();
                 $conexion = null;
             }
             catch (PDOException $e) {
-                return false;
                 $conexion = null;
+                $e->getMessage();
             }
         }
 
         function extraeTuristas(){
             try {
                 $conexion = creaConexion();
-                $consulta = $conexion->prepare("SELECT * FROM tursita");
+                $consulta = $conexion->prepare("SELECT * FROM turista");
                 $consulta -> execute();
                 $array = [];
                 while ($fila = $consulta->fetch(PDO::FETCH_BOTH)){
@@ -70,20 +72,35 @@
                 $conexion = null;
             }
             catch (PDOException $e) {
-                return false;
                 $conexion = null;
+                $e->getMessage();
             }
         }
 
         function actualizaTurista(){
             try {
                 $conexion = creaConexion();
-                $consulta = $conexion->prepare("SELECT * FROM tursita WHERE id= ?");
+                $consulta = $conexion->prepare("UPDATE turista SET direccion = ? AND telefono = ? WHERE id= ?");
                 $consulta->bindParam(1,$id);
                 return $consulta->fetch();
             }
             catch (PDOException $e) {
-                return false;
+                $e->getMessage();
+            }
+        }
+
+        function eliminaTurista(){
+            try {
+                $conexion = creaConexion();
+                $consulta = $conexion->prepare("DELETE FROM turista WHERE id= ?");
+                $consulta->bindParam("id",$id);
+                $consulta->execute();
+                return $consulta->fetch();
+                $conexion = null;
+            }
+            catch (PDOException $e) {
+                $conexion = null;
+                $e->getMessage();
             }
         }
     
