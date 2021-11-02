@@ -8,34 +8,83 @@
 </head>
 <body>
     <?php
-        function creaConexion(){
         $servidor = "localhost";
         $baseDatos = "agenciaviajes";
         $usuario = "developer";
         $pass = "developer";
-        try {
-        $conexion = new PDO("mysql:host=$servidor;dbname=$baseDatos",$usuario,$pass);
-        echo "Conectado correctamente";
-        echo "<br>";
-    } catch (PDOException $e) {
-        echo "Conexion fallida: " , $e->getMessage();
-    }
+        function creaConexion($servidor,$baseDatos,$usuario,$pass){
+            try {
+            $conexion = new PDO("mysql:host=$servidor;dbname=$baseDatos",$usuario,$pass);
+            echo "Conectado correctamente";
+            echo "<br>";
+            return $conexion;
+            } 
+            catch (PDOException $e) {
+            echo "Conexion fallida: " , $e->getMessage();
+            $conexion = null;
+            }
         }
 
-        function crearTurista(){
-
+        function crearTurista($nombre,$apellido1,$apellido2,$direccion,$telefono){
+            try {
+            $conexion = creaConexion();
+            $consulta = $conexion->prepare("INSERT INTO turista(nombre,apellido1,apellido2,direccion,telefono) VALUES (?,?,?,?,?)");
+            $consulta->bindParam(1,$nombre);
+            $consulta->bindParam(2,$apellido1);
+            $consulta->bindParam(3,$apellido2);
+            $consulta->bindParam(4,$direccion);
+            $consulta->bindParam(5,$telefono);
+            return $conexion->lastInsertId();
+            $conexion = null;
+            } catch (PDOException $e) {
+                return false;
+                $conexion = null;
+            }
         }
 
         function extraeTurista(){
-
+            try {
+                $conexion = creaConexion();
+                $consulta = $conexion->prepare("SELECT * FROM tursita WHERE id= ?");
+                $consulta->bindParam("id",$id);
+                $consulta->execute();
+                return $consulta->fetch();
+                $conexion = null;
+            }
+            catch (PDOException $e) {
+                return false;
+                $conexion = null;
+            }
         }
 
         function extraeTuristas(){
-
+            try {
+                $conexion = creaConexion();
+                $consulta = $conexion->prepare("SELECT * FROM tursita");
+                $consulta -> execute();
+                $array = [];
+                while ($fila = $consulta->fetch(PDO::FETCH_BOTH)){
+                    $array[] = $fila;
+                }
+                return $consulta->fetch();
+                $conexion = null;
+            }
+            catch (PDOException $e) {
+                return false;
+                $conexion = null;
+            }
         }
 
         function actualizaTurista(){
-
+            try {
+                $conexion = creaConexion();
+                $consulta = $conexion->prepare("SELECT * FROM tursita WHERE id= ?");
+                $consulta->bindParam(1,$id);
+                return $consulta->fetch();
+            }
+            catch (PDOException $e) {
+                return false;
+            }
         }
     
     ?>
