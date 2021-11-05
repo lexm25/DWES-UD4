@@ -77,11 +77,14 @@
             }
         }
 
-        function actualizaTurista(){
+        function actualizaTurista($id, $direccion, $telefono){
             try {
                 $conexion = creaConexion();
                 $consulta = $conexion->prepare("UPDATE turista SET direccion = ? AND telefono = ? WHERE id= ?");
-                $consulta->bindParam(1,$id);
+                $consulta->bindParam(1, $direccion);
+                $consulta->bindParam(2, $telefono);
+                $consulta->bindParam(3, $id);
+                $consulta->execute();
                 return $consulta->fetch();
             }
             catch (PDOException $e) {
